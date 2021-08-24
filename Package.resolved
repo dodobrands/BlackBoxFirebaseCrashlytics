@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BlackBox",
+        "repositoryURL": "https://github.com/dodopizza/BlackBox-ios.git",
+        "state": {
+          "branch": null,
+          "revision": "943e1486f88b57a9945eddeb35c3373103671ab7",
+          "version": "0.3.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
