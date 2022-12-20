@@ -25,7 +25,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(
-            url: "https://github.com/dodopizza/BlackBox-ios.git",
+            url: "git@github.com:dodopizza/BlackBox-ios.git",
             from: "0.6.0"
         ),
         .package(

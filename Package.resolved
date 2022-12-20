@@ -12,7 +12,7 @@
       },
       {
         "package": "BlackBox",
-        "repositoryURL": "https://github.com/dodopizza/BlackBox-ios.git",
+        "repositoryURL": "git@github.com:dodopizza/BlackBox-ios.git",
         "state": {
           "branch": null,
           "revision": "141a8ce2295acb3998a4cab5a0e8fc9e28903a0e",
