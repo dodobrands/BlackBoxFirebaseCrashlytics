@@ -27,7 +27,7 @@ on:
       xcode-version:
         description: 'Xcode version'
         required: true
-        default: '~>13'
+        default: '~>14'
 
 defaults:
   run:
@@ -42,7 +42,7 @@ env:
   LANGUAGE: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   SCHEME: "BlackBoxFirebase"
-  XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>13' }}
+  XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>14' }}
 
 jobs:
   unit-tests-spm:
