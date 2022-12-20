@@ -10,20 +10,6 @@ on:
       - 'hotfix/**'
   workflow_dispatch:
     inputs:
-      agent:
-        type: choice
-        description: 'Build agent'
-        required: true
-        default: ios
-        options: 
-        - bbq
-        - macos
-        - ios
-        - arriva
-        - salmon
-        - diablo
-        - cheesy-chicken
-        - pepperoni
       xcode-version:
         description: 'Xcode version'
         required: true
@@ -46,7 +32,7 @@ env:
 
 jobs:
   unit-tests-spm:
-    runs-on: ${{ github.event.inputs.agent || 'ios' }}
+    runs-on: 'ios'
 
     timeout-minutes: 15
 
