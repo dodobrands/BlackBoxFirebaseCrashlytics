@@ -3,30 +3,51 @@
 
 import PackageDescription
 
+let packageName = "BlackBoxFirebase"
+let libraryName = packageName
+let targetName = libraryName
+let testTargetName = targetName + "Tests"
+
 let package = Package(
-    name: "BlackBox-Firebase",
-    platforms: [.iOS(.v10)],
+    name: packageName,
+    platforms: [
+        .iOS(.v12),
+        .macOS(.v10_14)
+    ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "BlackBox-Firebase",
-            targets: ["BlackBox-Firebase"]),
+            name: libraryName,
+            targets: [targetName]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(
             url: "https://github.com/dodopizza/BlackBox-ios.git",
-            from: "0.2.1")
+            from: "0.6.0"
+        ),
+        .package(
+            url: "https://github.com/firebase/firebase-ios-sdk.git",
+            from: "10.0.0"
+        )
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "BlackBox-Firebase",
-            dependencies: ["BlackBox"]),
+            name: targetName,
+            dependencies: [
+                "BlackBox",
+                "FirebaseCrashlytics"
+            ]
+        ),
         .testTarget(
-            name: "BlackBox-FirebaseTests",
-            dependencies: ["BlackBox"]),
+            name: testTargetName,
+            dependencies: [
+                .targetItem(name: targetName, condition: nil),
+                "BlackBox"
+            ]
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )

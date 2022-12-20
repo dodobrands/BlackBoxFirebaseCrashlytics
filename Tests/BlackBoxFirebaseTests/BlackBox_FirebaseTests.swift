@@ -1,12 +1,12 @@
 //
-//  BlackBox_FirebaseTests.swift
-//  BlackBox-FirebaseTests
+//  BlackBoxFirebaseTests.swift
+//  BlackBoxFirebaseTests
 //
 //  Created by Алексей Берёзка on 30.03.2021.
 //
 
 import XCTest
-@testable import BlackBox_Firebase
+@testable import BlackBoxFirebase
 
 class BlackBox_FirebaseTests: XCTestCase {
 
