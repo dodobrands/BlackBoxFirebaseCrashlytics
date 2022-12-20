@@ -1,0 +1,89 @@
+name: Unit Tests
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    branches:
+      - 'develop'
+      - 'main'
+      - 'release/**'
+      - 'hotfix/**'
+  workflow_dispatch:
+    inputs:
+      agent:
+        type: choice
+        description: 'Build agent'
+        required: true
+        default: ios
+        options: 
+        - bbq
+        - macos
+        - ios
+        - arriva
+        - salmon
+        - diablo
+        - cheesy-chicken
+        - pepperoni
+      xcode-version:
+        description: 'Xcode version'
+        required: true
+        default: '~>13'
+
+defaults:
+  run:
+    shell: zsh {0}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  LANG: "en_US.UTF-8"
+  LANGUAGE: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
+  SCHEME: "BlackBoxFirebase"
+  XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>13' }}
+
+jobs:
+  unit-tests-spm:
+    runs-on: ${{ github.event.inputs.agent || 'ios' }}
+
+    timeout-minutes: 15
+
+    strategy:
+      matrix:
+        DESTINATION: ["platform=iOS Simulator,name=iPhone 11", "platform=OS X", "platform=tvOS Simulator,name=Apple TV", "platform=watchOS Simulator,name=Apple Watch Series 5 - 40mm"]
+
+    steps:
+    - name: Get source code
+      uses: actions/checkout@v3
+      with:
+        clean: true
+
+    - name: Prepare Environment for App Build
+      uses: ./.github/actions/prepare_env_app_build
+      with:
+        xcode-version: ${{ env.XCODE_VERSION }}
+        
+    - name: Build
+      run: xcodebuild build-for-testing -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
+
+    - name: Test
+      run: xcodebuild test -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
+
+    - name: Clean up
+      if: ${{ always() }}
+      uses: ./.github/actions/cleanup
+
+  # This allows us to have a branch protection rule for tests and deploys with matrix
+  status-for-matrix:
+    runs-on: ${{ github.event.inputs.agent || 'ios' }}
+    needs: ['unit-tests-spm']
+    if: always()
+    steps:
+      - name: Successful deploy
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: exit 0
+      - name: Failing deploy
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1
