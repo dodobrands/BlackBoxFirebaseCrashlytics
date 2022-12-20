@@ -27,7 +27,7 @@ on:
       xcode-version:
         description: 'Xcode version'
         required: true
-        default: '~>13'
+        default: '~>14'
 
 defaults:
   run:
@@ -42,7 +42,7 @@ env:
   LANGUAGE: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   SCHEME: "BlackBoxFirebase"
-  XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>13' }}
+  XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>14' }}
 
 jobs:
   unit-tests-spm:
@@ -52,13 +52,18 @@ jobs:
 
     strategy:
       matrix:
-        DESTINATION: ["platform=iOS Simulator,name=iPhone 11", "platform=OS X", "platform=tvOS Simulator,name=Apple TV", "platform=watchOS Simulator,name=Apple Watch Series 5 - 40mm"]
+        DESTINATION: ["platform=iOS Simulator,name=iPhone 11", "platform=OS X", "platform=tvOS Simulator,name=Apple TV", "platform=watchOS Simulator,name=Apple Watch Ultra (49mm)"]
 
     steps:
     - name: Get source code
       uses: actions/checkout@v3
       with:
         clean: true
+
+    - name: Add SSH-key
+      uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Prepare Environment for App Build
       uses: ./.github/actions/prepare_env_app_build
