@@ -10,7 +10,7 @@ import Foundation
 import BlackBox
 import FirebaseCrashlytics
 
-final class CrashlyticsLogger: BBLoggerProtocol {
+class CrashlyticsLogger: BBLoggerProtocol {
     private let messagesLogLevels: [BBLogLevel]
     private let errorsLogLevels: [BBLogLevel]
     
@@ -21,37 +21,46 @@ final class CrashlyticsLogger: BBLoggerProtocol {
     }
     
     func log(_ event: BlackBox.ErrorEvent) {
-        if errorsLogLevels.contains(event.level) {
-            Crashlytics.crashlytics().record(error: event.error)
-        }
-        
-        log(event as BlackBox.GenericEvent)
+        logError(event)
+        logMessage(event)
     }
 
     func log(_ event: BlackBox.GenericEvent) {
-        crashlyticsLog(event)
+        logMessage(event)
     }
     
     func logStart(_ event: BlackBox.StartEvent) {
-        crashlyticsLog(event)
+        logMessage(event)
     }
     
     func logEnd(_ event: BlackBox.EndEvent) {
-        crashlyticsLog(event)
+        logMessage(event)
+    }
+    
+    private func logMessage(_ event: BlackBox.GenericEvent) {
+        guard messagesLogLevels.contains(event.level) else { return }
+        
+        let formattedMessage = formattedMessage(from: event)
+        
+        logMessage(formattedMessage)
+    }
+    
+    private func logError(_ event: BlackBox.ErrorEvent) {
+        guard errorsLogLevels.contains(event.level) else { return }
+        
+        logError(event.error as NSError)
+    }
+    
+    func logMessage(_ message: String) {
+        Crashlytics.crashlytics().log(message)
+    }
+    
+    func logError(_ error: NSError) {
+        Crashlytics.crashlytics().record(error: error)
     }
 }
 
 extension CrashlyticsLogger {
-    private func crashlyticsLog(_ event: BlackBox.GenericEvent) {
-        guard messagesLogLevels.contains(event.level) else {
-            return
-        }
-        
-        let formattedMessage = formattedMessage(from: event)
-        
-        Crashlytics.crashlytics().log(formattedMessage)
-    }
-    
     private func formattedMessage(from event: BlackBox.GenericEvent) -> String {
         let message: String
         switch event.level {
@@ -62,15 +71,16 @@ extension CrashlyticsLogger {
         }
         
         
-        let prefix = """
-"\(event.source.filename)
-\(event.source.function) - Line \(event.source.line)
+        let source = """
+[Source]
+\(event.source.filename):\(event.source.line)
+\(event.source.function)
 """
         
         let messageWithoutUserInfo = [
-            prefix,
-            message
-        ].joined(separator: "\n")
+            message,
+            source
+        ].joined(separator: "\n\n")
 
         
         guard let userInfo = event.userInfo else {
@@ -79,7 +89,7 @@ extension CrashlyticsLogger {
         
         return messageWithoutUserInfo
         + "\n\n"
-        + "[User Info]:"
+        + "[User Info]"
         + "\n"
         + userInfo.crashlyticsLogDescription
     }
@@ -104,5 +114,11 @@ extension Dictionary where Key == String, Value == Any {
         else { return String(describing: self) }
         
         return jsonString
+    }
+}
+
+extension CrashlyticsLogger {
+    struct LogData {
+        
     }
 }
