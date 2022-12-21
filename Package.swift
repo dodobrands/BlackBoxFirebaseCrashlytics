@@ -3,7 +3,7 @@
 
 import PackageDescription
 
-let packageName = "BlackBoxFirebase"
+let packageName = "BlackBoxFirebaseCrashlytics"
 let libraryName = packageName
 let targetName = libraryName
 let testTargetName = targetName + "Tests"
