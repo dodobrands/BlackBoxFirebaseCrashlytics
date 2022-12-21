@@ -7,7 +7,7 @@
 
 import XCTest
 import BlackBox
-@testable import BlackBoxFirebase
+@testable import BlackBoxFirebaseCrashlytics
 
 class CrashlyticsLoggerTests: BlackBoxTestCase {
     var crashlyticsLogger: CrashlyticsLoggerMock!
@@ -75,7 +75,7 @@ CrashlyticsLoggerTests:68
 test_genericEvent_userInfo_nonCodable()
 
 [User Info]
-["response": BlackBoxFirebaseTests.CrashlyticsLoggerTests.Response(value: "General Kenobi")]
+["response": BlackBoxFirebaseCrashlyticsTests.CrashlyticsLoggerTests.Response(value: "General Kenobi")]
 """
         XCTAssertEqual(crashlyticsLogger.loggedMessage, expectedResult)
     }

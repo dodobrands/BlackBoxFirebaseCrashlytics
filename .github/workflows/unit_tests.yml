@@ -27,7 +27,7 @@ env:
   LANG: "en_US.UTF-8"
   LANGUAGE: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
-  SCHEME: "BlackBoxFirebase"
+  SCHEME: "BlackBoxFirebaseCrashlytics"
   XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>14' }}
 
 jobs:
