@@ -56,6 +56,9 @@ jobs:
       with:
         xcode-version: ${{ env.XCODE_VERSION }}
         
+    - name: Resolve Dependencies
+      run: swift package resolve
+
     - name: Build
       run: xcodebuild build-for-testing -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
 
