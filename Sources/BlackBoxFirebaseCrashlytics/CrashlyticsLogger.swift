@@ -10,7 +10,7 @@ import Foundation
 import BlackBox
 import FirebaseCrashlytics
 
-class CrashlyticsLogger: BBLoggerProtocol {
+public class CrashlyticsLogger: BBLoggerProtocol {
     private let messagesLogLevels: [BBLogLevel]
     private let errorsLogLevels: [BBLogLevel]
     
@@ -20,20 +20,20 @@ class CrashlyticsLogger: BBLoggerProtocol {
         self.errorsLogLevels = errorsLogLevels
     }
     
-    func log(_ event: BlackBox.ErrorEvent) {
+    public func log(_ event: BlackBox.ErrorEvent) {
         logError(event)
         logMessage(event)
     }
 
-    func log(_ event: BlackBox.GenericEvent) {
+    public func log(_ event: BlackBox.GenericEvent) {
         logMessage(event)
     }
     
-    func logStart(_ event: BlackBox.StartEvent) {
+    public func logStart(_ event: BlackBox.StartEvent) {
         logMessage(event)
     }
     
-    func logEnd(_ event: BlackBox.EndEvent) {
+    public func logEnd(_ event: BlackBox.EndEvent) {
         logMessage(event)
     }
     
