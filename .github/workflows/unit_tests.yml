@@ -49,6 +49,7 @@ jobs:
       run: xcodebuild build-for-testing -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
 
     - name: Test
+      if: ${{ !contains(matrix.DESTINATION, 'watchOS') }} # watchOS Simulator is too slow on GitHub-hosted Runners, expectation-related tests are flaky
       run: xcodebuild test -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
 
   # This allows us to have a branch protection rule for tests and deploys with matrix
