@@ -40,11 +40,6 @@ jobs:
       with:
         clean: true
 
-    - name: Add SSH-key
-      uses: webfactory/ssh-agent@v0.4.1
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
     - name: Prepare Environment for App Build
       uses: ./.github/actions/prepare_env_app_build
       with:
