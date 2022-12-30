@@ -12,7 +12,7 @@
     {
       "identity" : "blackbox",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:dodopizza/BlackBox.git",
+      "location" : "https://github.com/dodopizza/BlackBox.git",
       "state" : {
         "revision" : "6b8df670e2f971a2ec6945ab454625169b42eb57",
         "version" : "1.0.0"
