@@ -9,11 +9,6 @@ on:
       - 'release/**'
       - 'hotfix/**'
   workflow_dispatch:
-    inputs:
-      xcode-version:
-        description: 'Xcode version'
-        required: true
-        default: '~>14'
 
 defaults:
   run:
@@ -28,14 +23,13 @@ env:
   LANGUAGE: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   SCHEME: "BlackBoxFirebaseCrashlytics"
-  XCODE_VERSION: ${{ github.event.inputs.xcode-version || '~>14' }}
+  XCODE_VERSION: '~>14'
 
 jobs:
   unit-tests-spm:
     runs-on: 'ios'
 
     timeout-minutes: 15
-
     strategy:
       matrix:
         DESTINATION: ["platform=iOS Simulator,name=iPhone 11", "platform=OS X", "platform=tvOS Simulator,name=Apple TV", "platform=watchOS Simulator,name=Apple Watch Ultra (49mm)"]
