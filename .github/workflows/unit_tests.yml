@@ -51,10 +51,6 @@ jobs:
     - name: Test
       run: xcodebuild test -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
 
-    - name: Clean up
-      if: ${{ always() }}
-      uses: ./.github/actions/cleanup
-
   # This allows us to have a branch protection rule for tests and deploys with matrix
   status-for-matrix:
     runs-on: ${{ github.event.inputs.agent || 'ios' }}
