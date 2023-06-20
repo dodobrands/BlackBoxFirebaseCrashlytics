@@ -22,7 +22,6 @@ env:
   LANGUAGE: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   SCHEME: "BlackBoxFirebaseCrashlytics"
-  XCODE_VERSION: '~>14'
 
 jobs:
   unit-tests-spm:
@@ -41,8 +40,6 @@ jobs:
 
     - name: Prepare Environment for App Build
       uses: ./.github/actions/prepare_env_app_build
-      with:
-        xcode-version: ${{ env.XCODE_VERSION }}
         
     - name: Build
       run: xcodebuild build-for-testing -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
