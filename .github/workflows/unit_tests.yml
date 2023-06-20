@@ -39,11 +39,19 @@ jobs:
       run: xcodebuild -resolvePackageDependencies
         
     - name: Build
-      run: xcodebuild build-for-testing -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
+      run: >
+        xcodebuild build-for-testing
+        -scheme ${{ env.SCHEME }}
+        -destination '${{ matrix.DESTINATION }}'
+        -quiet
 
     - name: Test
       if: ${{ !contains(matrix.DESTINATION, 'watchOS') }} # watchOS Simulator is too slow on GitHub-hosted Runners, expectation-related tests are flaky
-      run: xcodebuild test -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
+      run: >
+        xcodebuild test
+        -scheme ${{ env.SCHEME }}
+        -destination '${{ matrix.DESTINATION }}'
+        -quiet
 
   # This allows us to have a branch protection rule for tests and deploys with matrix
   status-for-matrix:
