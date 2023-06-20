@@ -34,6 +34,9 @@ jobs:
 
     - name: Prepare Environment for App Build
       uses: ./.github/actions/prepare_env_app_build
+
+    - name: Resolve Dependencies
+      run: xcodebuild -resolvePackageDependencies
         
     - name: Build
       run: xcodebuild build-for-testing -scheme ${{ env.SCHEME }} -destination '${{ matrix.DESTINATION }}'
