@@ -21,7 +21,7 @@ env:
 
 jobs:
   unit-tests-spm:
-    runs-on: 'macos-latest'
+    runs-on: 'macos-13'
 
     timeout-minutes: 15
     strategy:
