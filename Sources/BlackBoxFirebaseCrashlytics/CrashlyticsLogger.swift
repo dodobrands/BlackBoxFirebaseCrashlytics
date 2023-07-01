@@ -77,8 +77,16 @@ extension CrashlyticsLogger {
 \(event.source.function)
 """
         
+        let formattedMessage: String
+        switch event {
+        case let endEvent as BlackBox.EndEvent:
+            formattedMessage = "\(message), duration: \(endEvent.durationFormatted)"
+        default:
+            formattedMessage = message
+        }
+        
         let messageWithoutUserInfo = [
-            message,
+            formattedMessage,
             source
         ].joined(separator: "\n\n")
 
