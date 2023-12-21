@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.8
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -26,7 +26,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(
             url: "https://github.com/dodobrands/BlackBox.git",
-            .upToNextMajor(from: "2.0.0")
+            revision: "5e60e398bfe41166d7e237f815c465271cf6d277"
         ),
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
