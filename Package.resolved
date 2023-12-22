@@ -14,7 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dodobrands/BlackBox.git",
       "state" : {
-        "revision" : "763ff6170ce16698477c3f333e9826981c0c05e4"
+        "revision" : "763ff6170ce16698477c3f333e9826981c0c05e4",
+        "version" : "3.0.0"
       }
     },
     {
