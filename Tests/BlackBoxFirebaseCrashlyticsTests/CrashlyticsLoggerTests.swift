@@ -18,8 +18,17 @@ class CrashlyticsLoggerTests: BlackBoxTestCase {
         createLogger(messageLevels: .allCases, errorLevels: .allCases)
     }
     
-    private func createLogger(messageLevels: [BBLogLevel], errorLevels: [BBLogLevel]) {
-        crashlyticsLogger = .init(messagesLogLevels: messageLevels, errorsLogLevels: errorLevels)
+    private func createLogger(
+        messageLevels: [BBLogLevel] = .allCases, 
+        errorLevels: [BBLogLevel] = .allCases,
+        logFormat: BBLogFormat = BBLogFormat()
+    ) {
+        crashlyticsLogger = .init(
+            messagesLogLevels: messageLevels,
+            errorsLogLevels: errorLevels,
+            logFormat: logFormat
+        )
+        
         BlackBox.instance = .init(loggers: [crashlyticsLogger])
         
         logger = crashlyticsLogger
@@ -37,7 +46,7 @@ class CrashlyticsLoggerTests: BlackBoxTestCase {
 Hello there
 
 [Source]
-CrashlyticsLoggerTests:33
+CrashlyticsLoggerTests:42
 test_genericEvent_message()
 """
         XCTAssertEqual(crashlyticsLogger.loggedMessage, expectedResult)
@@ -50,7 +59,7 @@ test_genericEvent_message()
 Hello there
 
 [Source]
-CrashlyticsLoggerTests:47
+CrashlyticsLoggerTests:56
 test_genericEvent_userInfo()
 
 [User Info]
@@ -71,7 +80,7 @@ test_genericEvent_userInfo()
 Hello there
 
 [Source]
-CrashlyticsLoggerTests:68
+CrashlyticsLoggerTests:77
 test_genericEvent_userInfo_nonCodable()
 
 [User Info]
@@ -92,10 +101,12 @@ test_genericEvent_userInfo_nonCodable()
         XCTAssertNil(crashlyticsLogger.loggedMessage)
     }
     
+    enum Error: Swift.Error {
+        case someError
+    }
+    
     func test_errorEvent_invalidLevels() {
-        enum Error: Swift.Error {
-            case someError
-        }
+        
         createLogger(messageLevels: [.debug], errorLevels: [.debug])
 
         let logLevels: [BBLogLevel] = [.debug, .info, .warning]
@@ -115,16 +126,25 @@ test_genericEvent_userInfo_nonCodable()
     }
     
     func test_errorEvent_validLevel() {
-        enum Error: Swift.Error {
-            case someError
-        }
-        
         createLogger(messageLevels: [.error], errorLevels: [.error])
-
+        
         waitForError { BlackBox.log(Error.someError) }
         XCTAssertNotNil(crashlyticsLogger.loggedError)
     }
 
+    func test_genericEvent_warningLevel_showIconIfEnabledInFormat() {
+        createLogger(logFormat: BBLogFormat(showLevelIcon: true))
+        
+        waitForMessage { BlackBox.log("Message", level: .warning) }
+        XCTAssertEqual(crashlyticsLogger.loggedMessage, """
+⚠️ Message
+
+[Source]
+CrashlyticsLoggerTests:138
+test_genericEvent_warningLevel_showIconIfEnabledInFormat()
+"""
+        )
+    }
 
     func test_startEvent() {
         waitForMessage { let _ = BlackBox.logStart("Process") }
@@ -132,7 +152,7 @@ test_genericEvent_userInfo_nonCodable()
 Start: Process
 
 [Source]
-CrashlyticsLoggerTests:130
+CrashlyticsLoggerTests:150
 test_startEvent()
 """)
     }
@@ -145,7 +165,7 @@ test_startEvent()
         let prefix = "End: Process, duration"
         let suffix = """
 [Source]
-CrashlyticsLoggerTests:141
+CrashlyticsLoggerTests:161
 test_endEvent()
 """
         

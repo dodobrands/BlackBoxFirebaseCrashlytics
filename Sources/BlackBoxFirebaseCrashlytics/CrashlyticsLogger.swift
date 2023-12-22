@@ -13,11 +13,14 @@ import FirebaseCrashlytics
 public class CrashlyticsLogger: BBLoggerProtocol {
     private let messagesLogLevels: [BBLogLevel]
     private let errorsLogLevels: [BBLogLevel]
+    private let logFormat: BBLogFormat
     
     public init(messagesLogLevels: [BBLogLevel],
-                errorsLogLevels: [BBLogLevel]) {
+                errorsLogLevels: [BBLogLevel],
+                logFormat: BBLogFormat = BBLogFormat()) {
         self.messagesLogLevels = messagesLogLevels
         self.errorsLogLevels = errorsLogLevels
+        self.logFormat = logFormat
     }
     
     public func log(_ event: BlackBox.ErrorEvent) {
@@ -62,14 +65,18 @@ public class CrashlyticsLogger: BBLoggerProtocol {
 
 extension CrashlyticsLogger {
     private func formattedMessage(from event: BlackBox.GenericEvent) -> String {
-        let message: String
-        switch event.level {
-        case .debug, .info:
-            message = event.message
-        case .error, .warning:
-            message = event.level.icon + " " + event.message
+        let icon: String?
+        if logFormat.showLevelIcon {
+            switch event.level {
+            case .debug, .info:
+                icon = nil
+            case .error, .warning:
+                icon = event.level.icon
+            }
+        } else {
+            icon = nil
         }
-        
+
         
         let source = """
 [Source]
@@ -77,16 +84,11 @@ extension CrashlyticsLogger {
 \(event.source.function)
 """
         
-        let formattedMessage: String
-        switch event {
-        case let endEvent as BlackBox.EndEvent:
-            formattedMessage = "\(message), duration: \(endEvent.durationFormatted)"
-        default:
-            formattedMessage = message
-        }
+        let messageWithFormattedDuration = event.messageWithFormattedDuration(using: logFormat.measurementFormatter)
         
+        let message = [icon, messageWithFormattedDuration].compactMap { $0 }.joined(separator: " ")
         let messageWithoutUserInfo = [
-            formattedMessage,
+            message,
             source
         ].joined(separator: "\n\n")
 
