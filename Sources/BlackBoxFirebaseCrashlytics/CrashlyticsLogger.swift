@@ -13,11 +13,14 @@ import FirebaseCrashlytics
 public class CrashlyticsLogger: BBLoggerProtocol {
     private let messagesLogLevels: [BBLogLevel]
     private let errorsLogLevels: [BBLogLevel]
+    private let logFormat: BBLogFormat
     
     public init(messagesLogLevels: [BBLogLevel],
-                errorsLogLevels: [BBLogLevel]) {
+                errorsLogLevels: [BBLogLevel],
+                logFormat: BBLogFormat = BBLogFormat()) {
         self.messagesLogLevels = messagesLogLevels
         self.errorsLogLevels = errorsLogLevels
+        self.logFormat = logFormat
     }
     
     public func log(_ event: BlackBox.ErrorEvent) {
@@ -62,31 +65,23 @@ public class CrashlyticsLogger: BBLoggerProtocol {
 
 extension CrashlyticsLogger {
     private func formattedMessage(from event: BlackBox.GenericEvent) -> String {
-        let message: String
-        switch event.level {
-        case .debug, .info:
-            message = event.message
-        case .error, .warning:
-            message = event.level.icon + " " + event.message
-        }
+        let icon = logFormat.levelsWithIcons.contains(event.level) ? event.level.icon : nil
         
+        let sourceComponents = [
+            "[Source]", 
+            "\(event.source.filename):\(event.source.line)",
+            "\(event.source.function)"
+        ]
         
-        let source = """
-[Source]
-\(event.source.filename):\(event.source.line)
-\(event.source.function)
-"""
+        let sourceComponentsSeparator = logFormat.sourceSectionInline ? " " : "\n"
         
-        let formattedMessage: String
-        switch event {
-        case let endEvent as BlackBox.EndEvent:
-            formattedMessage = "\(message), duration: \(endEvent.durationFormatted)"
-        default:
-            formattedMessage = message
-        }
+        let source = sourceComponents.joined(separator: sourceComponentsSeparator)
         
+        let messageWithFormattedDuration = event.messageWithFormattedDuration(using: logFormat.measurementFormatter)
+        
+        let message = [icon, messageWithFormattedDuration].compactMap { $0 }.joined(separator: " ")
         let messageWithoutUserInfo = [
-            formattedMessage,
+            message,
             source
         ].joined(separator: "\n\n")
 
