@@ -39,7 +39,7 @@ class CrashlyticsLoggerTests: BlackBoxTestCase {
     }
 
     func test_genericEvent_message() {
-        waitForMessage { BlackBox.log("Hello there") }
+        BlackBox.log("Hello there")
         
         
         let expectedResult = """
@@ -53,7 +53,7 @@ test_genericEvent_message()
     }
     
     func test_genericEvent_userInfo() {
-        waitForMessage { BlackBox.log("Hello there", userInfo: ["response": "General Kenobi"]) }
+        BlackBox.log("Hello there", userInfo: ["response": "General Kenobi"])
         
         let expectedResult = """
 Hello there
@@ -74,7 +74,7 @@ test_genericEvent_userInfo()
         let value: String
     }
     func test_genericEvent_userInfo_nonCodable() {
-        waitForMessage { BlackBox.log("Hello there", userInfo: ["response": Response(value: "General Kenobi")]) }
+        BlackBox.log("Hello there", userInfo: ["response": Response(value: "General Kenobi")])
         
         let expectedResult = """
 Hello there
@@ -95,7 +95,7 @@ test_genericEvent_userInfo_nonCodable()
         let logLevels: [BBLogLevel] = [.debug, .info, .warning]
 
         logLevels.forEach { level in
-            waitForMessage(isInverted: true) { BlackBox.log("Hello There", level: level) }
+            BlackBox.log("Hello There", level: level)
         }
 
         XCTAssertNil(crashlyticsLogger.loggedMessage)
@@ -112,7 +112,7 @@ test_genericEvent_userInfo_nonCodable()
         let logLevels: [BBLogLevel] = [.debug, .info, .warning]
 
         logLevels.forEach { level in
-            waitForError(isInverted: true) { BlackBox.log(Error.someError) }
+            BlackBox.log(Error.someError)
         }
 
         XCTAssertNil(crashlyticsLogger.loggedError)
@@ -121,21 +121,21 @@ test_genericEvent_userInfo_nonCodable()
     func test_genericEvent_validLevel() {
         createLogger(messageLevels: [.error], errorLevels: [.error])
 
-        waitForMessage { BlackBox.log("Hello There", level: .error) }
+        BlackBox.log("Hello There", level: .error)
         XCTAssertNotNil(crashlyticsLogger.loggedMessage)
     }
     
     func test_errorEvent_validLevel() {
         createLogger(messageLevels: [.error], errorLevels: [.error])
         
-        waitForError { BlackBox.log(Error.someError) }
+        BlackBox.log(Error.someError)
         XCTAssertNotNil(crashlyticsLogger.loggedError)
     }
 
     func test_genericEvent_warningLevel_showIconIfEnabledInFormat() {
         createLogger(logFormat: BBLogFormat(levelsWithIcons: [.warning]))
         
-        waitForMessage { BlackBox.log("Message", level: .warning) }
+        BlackBox.log("Message", level: .warning)
         XCTAssertEqual(crashlyticsLogger.loggedMessage, """
 ⚠️ Message
 
@@ -149,7 +149,7 @@ test_genericEvent_warningLevel_showIconIfEnabledInFormat()
     func test_genericEvent_inlineSource() {
         createLogger(logFormat: BBLogFormat(sourceSectionInline: true))
         
-        waitForMessage { BlackBox.log("Message", level: .warning) }
+        BlackBox.log("Message", level: .warning)
         XCTAssertEqual(crashlyticsLogger.loggedMessage, """
 Message
 
@@ -159,7 +159,7 @@ Message
     }
 
     func test_startEvent() {
-        waitForMessage { let _ = BlackBox.logStart("Process") }
+        let _ = BlackBox.logStart("Process")
         XCTAssertEqual(crashlyticsLogger.loggedMessage, """
 Start: Process
 
@@ -170,7 +170,7 @@ test_startEvent()
     }
 
     func test_endEvent() throws {
-        waitForMessage { BlackBox.logEnd(BlackBox.StartEvent("Process")) }
+        BlackBox.logEnd(BlackBox.StartEvent("Process"))
         
         let message = try XCTUnwrap(crashlyticsLogger.loggedMessage)
         
@@ -186,18 +186,14 @@ test_endEvent()
     }
 }
 
-class CrashlyticsLoggerMock: CrashlyticsLogger, TestableLoggerProtocol {
-    var messageExpectation: XCTestExpectation?
+class CrashlyticsLoggerMock: CrashlyticsLogger {
     var loggedMessage: String?
     override func logMessage(_ message: String) {
         loggedMessage = message
-        messageExpectation?.fulfill()
     }
     
-    var errorExpectation: XCTestExpectation?
     var loggedError: NSError?
     override func logError(_ error: NSError) {
         loggedError = error
-        errorExpectation?.fulfill()
     }
 }
