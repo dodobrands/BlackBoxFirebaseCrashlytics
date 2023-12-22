@@ -133,7 +133,7 @@ test_genericEvent_userInfo_nonCodable()
     }
 
     func test_genericEvent_warningLevel_showIconIfEnabledInFormat() {
-        createLogger(logFormat: BBLogFormat(showLevelIcon: true))
+        createLogger(logFormat: BBLogFormat(levelsWithIcons: [.warning]))
         
         waitForMessage { BlackBox.log("Message", level: .warning) }
         XCTAssertEqual(crashlyticsLogger.loggedMessage, """
@@ -145,6 +145,18 @@ test_genericEvent_warningLevel_showIconIfEnabledInFormat()
 """
         )
     }
+    
+    func test_genericEvent_inlineSource() {
+        createLogger(logFormat: BBLogFormat(sourceSectionInline: true))
+        
+        waitForMessage { BlackBox.log("Message", level: .warning) }
+        XCTAssertEqual(crashlyticsLogger.loggedMessage, """
+Message
+
+[Source] CrashlyticsLoggerTests:152 test_genericEvent_inlineSource()
+"""
+        )
+    }
 
     func test_startEvent() {
         waitForMessage { let _ = BlackBox.logStart("Process") }
@@ -152,7 +164,7 @@ test_genericEvent_warningLevel_showIconIfEnabledInFormat()
 Start: Process
 
 [Source]
-CrashlyticsLoggerTests:150
+CrashlyticsLoggerTests:162
 test_startEvent()
 """)
     }
@@ -165,7 +177,7 @@ test_startEvent()
         let prefix = "End: Process, duration"
         let suffix = """
 [Source]
-CrashlyticsLoggerTests:161
+CrashlyticsLoggerTests:173
 test_endEvent()
 """
         

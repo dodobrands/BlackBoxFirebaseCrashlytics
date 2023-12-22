@@ -65,24 +65,17 @@ public class CrashlyticsLogger: BBLoggerProtocol {
 
 extension CrashlyticsLogger {
     private func formattedMessage(from event: BlackBox.GenericEvent) -> String {
-        let icon: String?
-        if logFormat.showLevelIcon {
-            switch event.level {
-            case .debug, .info:
-                icon = nil
-            case .error, .warning:
-                icon = event.level.icon
-            }
-        } else {
-            icon = nil
-        }
-
+        let icon = logFormat.levelsWithIcons.contains(event.level) ? event.level.icon : nil
         
-        let source = """
-[Source]
-\(event.source.filename):\(event.source.line)
-\(event.source.function)
-"""
+        let sourceComponents = [
+            "[Source]", 
+            "\(event.source.filename):\(event.source.line)",
+            "\(event.source.function)"
+        ]
+        
+        let sourceComponentsSeparator = logFormat.sourceSectionInline ? " " : "\n"
+        
+        let source = sourceComponents.joined(separator: sourceComponentsSeparator)
         
         let messageWithFormattedDuration = event.messageWithFormattedDuration(using: logFormat.measurementFormatter)
         
