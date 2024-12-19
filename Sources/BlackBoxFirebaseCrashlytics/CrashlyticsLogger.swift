@@ -65,7 +65,7 @@ public class CrashlyticsLogger: BBLoggerProtocol {
 
 extension CrashlyticsLogger {
     private func formattedMessage(from event: BlackBox.GenericEvent) -> String {
-        let icon = logFormat.levelsWithIcons.contains(event.level) ? event.level.icon : nil
+        let icon = logFormat.icon(for: event.level)
         
         let sourceComponents = [
             "[Source]", 
