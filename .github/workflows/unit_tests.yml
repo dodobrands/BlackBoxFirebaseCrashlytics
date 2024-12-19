@@ -41,7 +41,7 @@ jobs:
     - name: Test
       if: ${{ !contains(matrix.DESTINATION, 'watchOS') }} # watchOS Simulator is too slow on GitHub-hosted Runners, expectation-related tests are flaky
       run: >
-        xcodebuild test
+        xcodebuild test-without-building
         -scheme ${{ env.SCHEME }}
         -destination '${{ matrix.DESTINATION }}'
         -quiet
