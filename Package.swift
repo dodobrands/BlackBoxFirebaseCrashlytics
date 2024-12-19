@@ -12,8 +12,8 @@ let package = Package(
     name: packageName,
     platforms: [
         .iOS(.v12),
-        .macOS(.v10_14),
-        .tvOS(.v12),
+        .macOS(.v10_15),
+        .tvOS(.v13),
         .watchOS(.v7)
     ],
     products: [
@@ -30,7 +30,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            .upToNextMajor(from: "10.0.0")
+            .upToNextMajor(from: "11.6.0")
         )
     ],
     targets: [
