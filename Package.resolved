@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dodobrands/BlackBox.git",
       "state" : {
-        "revision" : "763ff6170ce16698477c3f333e9826981c0c05e4",
-        "version" : "3.0.0"
+        "revision" : "ba8f78d3552c22913fbcacd4c5c6d3b1f7aa5f2d",
+        "version" : "4.0.1"
       }
     },
     {
@@ -25,6 +25,15 @@
       "state" : {
         "revision" : "dd3eda2b05a3f459fc3073695ad1b28659066eab",
         "version" : "0.9.1"
+      }
+    },
+    {
+      "identity" : "dbthreadsafe-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dodobrands/DBThreadSafe-ios.git",
+      "state" : {
+        "revision" : "f0aacbe9f5373d507644814617f6df3fdb7522ac",
+        "version" : "2.1.0"
       }
     },
     {
