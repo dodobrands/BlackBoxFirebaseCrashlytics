@@ -9,12 +9,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  SCHEME: "BlackBoxFirebaseCrashlytics"
-
 jobs:
-  unit-tests-spm:
+  tests:
     runs-on: 'macos-15'
+
+    env:
+      SCHEME: "BlackBoxFirebaseCrashlytics"
 
     timeout-minutes: 15
     strategy:
