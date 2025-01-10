@@ -50,5 +50,6 @@ let package = Package(
                 "BlackBox"
             ]
         ),
-    ]
+    ],
+    swiftLanguageModes: [.v6]
 )
