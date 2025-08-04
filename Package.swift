@@ -11,9 +11,9 @@ let testTargetName = targetName + "Tests"
 let package = Package(
     name: packageName,
     platforms: [
-        .iOS(.v12),
+        .iOS(.v15),
         .macOS(.v10_15),
-        .tvOS(.v13),
+        .tvOS(.v15),
         .watchOS(.v7)
     ],
     products: [
