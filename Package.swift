@@ -10,12 +10,7 @@ let testTargetName = targetName + "Tests"
 
 let package = Package(
     name: packageName,
-    platforms: [
-        .iOS(.v15),
-        .macOS(.v10_15),
-        .tvOS(.v15),
-        .watchOS(.v7)
-    ],
+    platforms: [.iOS(.v15), .macCatalyst(.v15), .macOS(.v10_15), .tvOS(.v15), .watchOS(.v7)], // should stay synced with https://github.com/firebase/firebase-ios-sdk/blob/main/Package.swift,
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
