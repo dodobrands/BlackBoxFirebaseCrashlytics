@@ -15,7 +15,6 @@ jobs:
 
     env:
       SCHEME: "BlackBoxFirebaseCrashlytics"
-      OS_VERSION: "26.4"
 
     timeout-minutes: 15
     strategy:
@@ -24,17 +23,17 @@ jobs:
           - destination: "platform=iOS Simulator"
             platform: ios
             device: "iPhone 17"
-            system_prefix: "iOS"
+            system: "com.apple.CoreSimulator.SimRuntime.iOS-26-4"
           - destination: "platform=OS X"
             platform: macos
           - destination: "platform=tvOS Simulator"
             platform: tvos
             device: "Apple TV 4K (3rd generation)"
-            system_prefix: "tvOS"
+            system: "com.apple.CoreSimulator.SimRuntime.tvOS-26-4"
           - destination: "platform=watchOS Simulator"
             platform: watchos
             device: "Apple Watch Ultra 3 (49mm)"
-            system_prefix: "watchOS"
+            system: "com.apple.CoreSimulator.SimRuntime.watchOS-26-4"
 
     steps:
     - name: Get source code
@@ -53,7 +52,7 @@ jobs:
       with:
         name: ${{ matrix.device }}
         device: ${{ matrix.device }}
-        system: ${{ matrix.system_prefix }}${{ env.OS_VERSION }}
+        system: ${{ matrix.system }}
 
     - name: Select Destination
       id: select-destination
