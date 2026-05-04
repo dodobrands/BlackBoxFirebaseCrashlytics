@@ -133,7 +133,7 @@ test_genericEvent_userInfo_nonCodable()
     }
 
     func test_genericEvent_warningLevel_showIconIfEnabledInFormat() {
-        createLogger(logFormat: BBLogFormat(levelsWithIcons: [.warning]))
+        createLogger(logFormat: BBLogFormat(levelsIcons: .init(warning: "⚠️")))
         
         BlackBox.log("Message", level: .warning)
         XCTAssertEqual(crashlyticsLogger.loggedMessage, """

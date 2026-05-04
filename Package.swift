@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -21,7 +21,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(
             url: "https://github.com/dodobrands/BlackBox.git",
-            .upToNextMajor(from: "4.0.1")
+            .upToNextMajor(from: "6.0.0")
         ),
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
@@ -36,6 +36,9 @@ let package = Package(
             dependencies: [
                 "BlackBox",
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
+            ],
+            swiftSettings: [
+                .treatAllWarnings(as: .error)
             ]
         ),
         .testTarget(
@@ -43,6 +46,9 @@ let package = Package(
             dependencies: [
                 .targetItem(name: targetName, condition: nil),
                 "BlackBox"
+            ],
+            swiftSettings: [
+                .treatAllWarnings(as: .error)
             ]
         ),
     ],

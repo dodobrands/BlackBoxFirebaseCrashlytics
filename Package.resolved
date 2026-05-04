@@ -1,5 +1,5 @@
 {
-  "originHash" : "0ffad37392de66f7f4df7a633aa0cd9202b2555124a6644b7c89d58c1f162f59",
+  "originHash" : "32562c5ed3977b7edd79f0c2587ad7665a15fc1a2d5e8bab14050644addf8208",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dodobrands/BlackBox.git",
       "state" : {
-        "revision" : "6d4094c504b9e05d63298d93507386ef70f1d7b9",
-        "version" : "4.1.0"
+        "revision" : "18d1d64ba01b334acb5cc8d0b963d49a30f59a74",
+        "version" : "6.0.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dodobrands/DBThreadSafe-ios.git",
       "state" : {
-        "revision" : "f0aacbe9f5373d507644814617f6df3fdb7522ac",
-        "version" : "2.1.0"
+        "revision" : "0548278893bb62afab333d697aaf0c80931401c7",
+        "version" : "3.1.0"
       }
     },
     {
