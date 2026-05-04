@@ -1,0 +1,29 @@
+name: 'Create iOS Simulator'
+
+inputs:
+  name:
+    description: 'Name of created simulator'
+    required: true
+  device:
+    description: "Device, e.g. 'iPhone 11'"
+    required: true
+  system:
+    description: "System, e.g. 'iOS17.4'"
+    required: true
+
+outputs:
+  uuid:
+    description: 'UUID of created simulator'
+    value: ${{ steps.create.outputs.uuid }}
+
+runs:
+  using: "composite"
+
+  steps:
+  - name: Create
+    id: create
+    shell: bash
+    run: |
+      uuid=$(xcrun simctl create "${{ inputs.name }}" "${{ inputs.device }}" "${{ inputs.system }}")
+      xcrun simctl boot "$uuid"
+      echo "uuid=$uuid" >> "$GITHUB_OUTPUT"
