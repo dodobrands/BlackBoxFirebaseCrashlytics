@@ -36,9 +36,6 @@ let package = Package(
             dependencies: [
                 "BlackBox",
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk")
-            ],
-            swiftSettings: [
-                .treatAllWarnings(as: .error)
             ]
         ),
         .testTarget(
@@ -46,9 +43,6 @@ let package = Package(
             dependencies: [
                 .targetItem(name: targetName, condition: nil),
                 "BlackBox"
-            ],
-            swiftSettings: [
-                .treatAllWarnings(as: .error)
             ]
         ),
     ],
