@@ -1,5 +1,5 @@
 {
-  "originHash" : "32562c5ed3977b7edd79f0c2587ad7665a15fc1a2d5e8bab14050644addf8208",
+  "originHash" : "1f76abce1bb22404a52bc35743381ff6aec281f0ba6f9c1d85952004fab88cd5",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dodobrands/BlackBox.git",
       "state" : {
-        "revision" : "18d1d64ba01b334acb5cc8d0b963d49a30f59a74",
-        "version" : "6.0.0"
+        "revision" : "935cf21b5894f560327b055a1392942463300914",
+        "version" : "6.0.1"
       }
     },
     {
