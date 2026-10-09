@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   tests:
-    runs-on: 'macos-latest'
+    runs-on: 'xcode-27'
 
     env:
       SCHEME: "BlackBoxFirebaseCrashlytics"
@@ -23,17 +23,17 @@ jobs:
           - destination: "platform=iOS Simulator"
             platform: ios
             device: "iPhone 17"
-            system: "com.apple.CoreSimulator.SimRuntime.iOS-26-4"
+            system: "com.apple.CoreSimulator.SimRuntime.iOS-27-0"
           - destination: "platform=OS X"
             platform: macos
           - destination: "platform=tvOS Simulator"
             platform: tvos
             device: "Apple TV 4K (3rd generation)"
-            system: "com.apple.CoreSimulator.SimRuntime.tvOS-26-4"
+            system: "com.apple.CoreSimulator.SimRuntime.tvOS-27-0"
           - destination: "platform=watchOS Simulator"
             platform: watchos
-            device: "Apple Watch Ultra 3 (49mm)"
-            system: "com.apple.CoreSimulator.SimRuntime.watchOS-26-4"
+            device: "Apple Watch Ultra 4 (49mm)"
+            system: "com.apple.CoreSimulator.SimRuntime.watchOS-27-0"
 
     steps:
     - name: Get source code
